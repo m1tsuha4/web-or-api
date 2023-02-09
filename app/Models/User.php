@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use App\Notifications\ResetPasswordNotification;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements JWTSubject , MustVerifyEmail
 {
@@ -64,4 +66,10 @@ class User extends Authenticatable implements JWTSubject , MustVerifyEmail
     public function profile(){
         return $this->hasOne(Profile::class);
     }
+    public function sendPasswordResetNotification($token)
+{
+    $url = 'http://127.0.0.1:8000/api/reset-password?token='.$token;
+ 
+    $this->notify(new ResetPasswordNotification($url));
+}
 }

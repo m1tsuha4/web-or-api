@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -33,7 +34,7 @@ class RegisterController extends Controller
             'email'     => $request->email,
             'password'  => bcrypt($request->password)
         ]);
-
+        event(new Registered($user)); // send verify email after registration
         //return response JSON user is created
         if($user) {
             return response()->json([

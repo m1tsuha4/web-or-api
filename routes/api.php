@@ -1,9 +1,12 @@
 <?php
 
-use App\Http\Controllers\Api\AdminController;
+// use NewPasswordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\EmailVerificationController;
+use App\Http\Controllers\Api\NewPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,7 +14,7 @@ use App\Http\Controllers\Api\ProfileController;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
+| routes are loaded by the RouteServiceProvider within a group which    
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
@@ -20,12 +23,15 @@ Route::post('/login', App\Http\Controllers\Api\LoginController::class)->name('lo
 Route::post('/register', App\Http\Controllers\Api\RegisterController::class)->name('register');
 Route::post('/logout', App\Http\Controllers\Api\LogoutController::class)->name('logout')->middleware('jwt.verify');
 Route::post('/password', App\Http\Controllers\Api\PasswordController::class)->name('password')->middleware('jwt.verify');
+Route::post('email/verification-notification', [EmailVerificationController::class, 'sendVerificationEmail'])->middleware('jwt.verify');
+Route::get('verify-email/{id}/{hash}', [EmailVerificationController::class, 'verify'])->name('verification.verify')->middleware('jwt.verify');
+Route::post('forgot-password', [NewPasswordController::class, 'forgotPassword']);
+Route::post('reset-password', [NewPasswordController::class, 'reset']);
 // route user
 Route::controller(ProfileController::class)->group(function(){
-    Route::get('profile/show', 'show')->middleware('jwt.verify');
+    Route::get('profile/show', 'show')->middleware('jwt.verify','verified');
     Route::post('profile/store_profile', 'store_profile')->middleware('jwt.verify');
     Route::post('profile/store_file', 'store_file')->middleware('jwt.verify');
-    Route::get('profile/update', 'update')->middleware('jwt.verify');
 });
 // route admin
 Route::controller(AdminController::class)->group(function(){

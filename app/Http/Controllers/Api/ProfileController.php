@@ -131,7 +131,7 @@ class ProfileController extends Controller
     public function show(Request $request)
     {
         // $profile = $request->user()->id;
-        $profile = Profile::find($request->user()->id);
+        $profile = Profile::where('user_id',$request->user()->id)->first();
         if ($profile) {
             return response()->json([
                 'success' => true,
