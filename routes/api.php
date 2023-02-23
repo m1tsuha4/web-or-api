@@ -29,8 +29,9 @@ Route::post('forgot-password', [NewPasswordController::class, 'forgotPassword'])
 Route::post('reset-password', [NewPasswordController::class, 'reset']);
 // route user
 Route::controller(ProfileController::class)->group(function(){
-    Route::get('profile/show', 'show')->middleware('jwt.verify','verified');
+    Route::get('profile/show', 'show')->middleware('jwt.verify');
     Route::post('profile/store_profile', 'store_profile')->middleware('jwt.verify');
+    Route::post('profile/update_profile', 'update_profile')->middleware('jwt.verify');
     Route::post('profile/store_file', 'store_file')->middleware('jwt.verify');
 });
 // route admin
