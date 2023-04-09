@@ -255,4 +255,33 @@ class ProfileController extends Controller
     //     $profile->delete();
     //     return new ProfileResource(true, 'Data Berhasil Dihapus!', null);
     // }
+    public function store(Request $request)
+    {
+        $path = $request->file('file')->store('public/files');
+
+        return response()->json([
+            'message' => 'File saved successfully.',
+            'path' => $path
+        ]);
+    }
+
+    public function show_file($filename)
+    {
+        $path = storage_path('app/public/files/' . $filename);
+
+        if (!file_exists($path)) {
+            return response()->json(['message' => 'File not found.'], 404);
+        }
+
+        $file = file_get_contents($path);
+
+        return response($file, 200)->header('Content-Type', mime_content_type($path));
+        $file = Storage::get($path);
+        // $type = Storage::mimeType($path);
+
+        // $response = Response::make($file, 200);
+        // $response->header("Content-Type", $type);
+    
+        // return $response;
+    }
 }

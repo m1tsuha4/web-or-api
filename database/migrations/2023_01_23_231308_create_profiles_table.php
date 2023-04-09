@@ -39,8 +39,8 @@ return new class extends Migration
             $table->string('VGA');
             $table->string('krs')->nullable();
             $table->string('bukti_pembayaran')->nullable();
-            $table->boolean('validation_status')->default(0);
-            $table->boolean('status_aktif')->default(1);
+            $table->boolean('validation_status')->default(false);
+            $table->boolean('status_aktif')->default(true);
             $table->string('zona')->nullable();
             $table->timestamps();
         });

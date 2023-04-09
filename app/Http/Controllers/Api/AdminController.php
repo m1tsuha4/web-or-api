@@ -9,11 +9,13 @@ use App\Http\Resources\ProfileResource;
 
 class AdminController extends Controller
 {
-    public function show_all(){
+    public function show_all()
+    {
         $profile = Profile::latest()->get();
         return new ProfileResource(true, 'List Data Profile', $profile);
     }
-    public function show_auser(Request $request){
+    public function show_auser(Request $request)
+    {
         $profile = Profile::find($request->id);
         if ($profile) {
             return response()->json([
@@ -29,16 +31,18 @@ class AdminController extends Controller
             ], 401);
         }
     }
-    public function status_aktif(Request $request){
+    public function status_aktif(Request $request)
+    {
         $profile = Profile::find($request->id);
-        $profile -> status_aktif = 0;
-        $profile -> save();
+        $profile->status_aktif = $request->status_aktif;
+        $profile->save();
         return new ProfileResource(true, 'Status Aktif Telah Diubah!', $profile);
     }
-    public function validation_status(Request $request){
+    public function validation_status(Request $request)
+    {
         $profile = Profile::find($request->id);
-        $profile -> validation_status = 1;
-        $profile -> save();
+        $profile->validation_status = $request->validation_status;
+        $profile->save();
         return new ProfileResource(true, 'Validation Status Berhasil Diubah!', $profile);
     }
 }

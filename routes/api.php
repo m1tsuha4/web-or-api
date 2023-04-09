@@ -33,6 +33,8 @@ Route::controller(ProfileController::class)->group(function(){
     Route::post('profile/store_profile', 'store_profile')->middleware('jwt.verify');
     Route::post('profile/update_profile', 'update_profile')->middleware('jwt.verify');
     Route::post('profile/store_file', 'store_file')->middleware('jwt.verify');
+    Route::get('profile/show_file/{filename}', 'show_file');
+    Route::post('profile/store', 'store');
 });
 // route admin
 Route::controller(AdminController::class)->group(function(){
