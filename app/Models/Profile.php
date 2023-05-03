@@ -39,6 +39,7 @@ class Profile extends Model
         'processor',
         'RAM',
         'VGA',
+        'foto',
         'krs',
         'bukti_pembayaran',
         'status_aktif',

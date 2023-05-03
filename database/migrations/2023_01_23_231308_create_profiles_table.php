@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('processor');
             $table->string('RAM');
             $table->string('VGA');
+            $table->string('foto')->nullable();
             $table->string('krs')->nullable();
             $table->string('bukti_pembayaran')->nullable();
             $table->boolean('validation_status')->default(false);
